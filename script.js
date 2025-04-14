@@ -144,9 +144,9 @@ let userPortfolio = [
   { coin: 'binancecoin', symbol: 'BNB', quantity: 1.5 }
 ]; // Default portfolio items
 
-// Function to add a new asset to portfolio
+
 function addNewAsset() {
-  // Create and display a modal for adding a new asset
+  
   const modal = document.createElement('div');
   modal.className = 'add-asset-modal';
   
@@ -173,7 +173,7 @@ function addNewAsset() {
   
   document.body.appendChild(modal);
   
-  // Add event listeners
+  
   document.querySelector('.close-modal').addEventListener('click', () => {
     document.body.removeChild(modal);
   });
@@ -185,14 +185,14 @@ function addNewAsset() {
     if (coinId && quantity > 0) {
       const selectedCoin = allCoinData.find(coin => coin.id === coinId);
       
-      // Check if coin already exists in portfolio
+      
       const existingCoinIndex = userPortfolio.findIndex(item => item.coin === coinId);
       
       if (existingCoinIndex !== -1) {
-        // Update existing coin quantity
+        
         userPortfolio[existingCoinIndex].quantity += quantity;
       } else {
-        // Add new coin to portfolio
+        
         userPortfolio.push({
           coin: coinId,
           symbol: selectedCoin.symbol,
@@ -200,10 +200,10 @@ function addNewAsset() {
         });
       }
       
-      // Update portfolio display
+      
       updatePortfolioUI();
       
-      // Close modal
+      
       document.body.removeChild(modal);
     } else {
       alert('Please select a coin and enter a valid quantity');
@@ -211,15 +211,14 @@ function addNewAsset() {
   });
 }
 
-// Function to update portfolio UI
 function updatePortfolioUI() {
   const portfolioList = document.querySelector('.assets');
   let totalValue = 0;
   
-  // Clear current list
+ 
   portfolioList.innerHTML = '';
   
-  // For each coin in portfolio, get current data and display
+  
   userPortfolio.forEach(portfolioItem => {
     const coinData = allCoinData.find(coin => coin.id === portfolioItem.coin);
     
