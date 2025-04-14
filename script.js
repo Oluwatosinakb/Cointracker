@@ -136,4 +136,119 @@ document.querySelectorAll(".time-btn").forEach((btn) => {
   });
 });
 
+// Portfolio management
+let userPortfolio = [
+  { coin: 'bitcoin', symbol: 'BTC', quantity: 0.5 },
+  { coin: 'ethereum', symbol: 'ETH', quantity: 3.2 },
+  { coin: 'solana', symbol: 'SOL', quantity: 25 },
+  { coin: 'binancecoin', symbol: 'BNB', quantity: 1.5 }
+]; // Default portfolio items
 
+// Function to add a new asset to portfolio
+function addNewAsset() {
+  // Create and display a modal for adding a new asset
+  const modal = document.createElement('div');
+  modal.className = 'add-asset-modal';
+  
+  modal.innerHTML = `
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Add New Asset</h3>
+      <div class="form-group">
+        <label for="coin-select">Select Coin</label>
+        <select id="coin-select">
+          <option value="">Select a coin</option>
+          ${allCoinData.map(coin => `
+            <option value="${coin.id}">${coin.name} (${coin.symbol.toUpperCase()})</option>
+          `).join('')}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="quantity-input">Quantity</label>
+        <input type="number" id="quantity-input" placeholder="0.00" step="0.000001" min="0">
+      </div>
+      <button id="add-to-portfolio" class="add-btn">Add to Portfolio</button>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Add event listeners
+  document.querySelector('.close-modal').addEventListener('click', () => {
+    document.body.removeChild(modal);
+  });
+  
+  document.getElementById('add-to-portfolio').addEventListener('click', () => {
+    const coinId = document.getElementById('coin-select').value;
+    const quantity = parseFloat(document.getElementById('quantity-input').value);
+    
+    if (coinId && quantity > 0) {
+      const selectedCoin = allCoinData.find(coin => coin.id === coinId);
+      
+      // Check if coin already exists in portfolio
+      const existingCoinIndex = userPortfolio.findIndex(item => item.coin === coinId);
+      
+      if (existingCoinIndex !== -1) {
+        // Update existing coin quantity
+        userPortfolio[existingCoinIndex].quantity += quantity;
+      } else {
+        // Add new coin to portfolio
+        userPortfolio.push({
+          coin: coinId,
+          symbol: selectedCoin.symbol,
+          quantity: quantity
+        });
+      }
+      
+      // Update portfolio display
+      updatePortfolioUI();
+      
+      // Close modal
+      document.body.removeChild(modal);
+    } else {
+      alert('Please select a coin and enter a valid quantity');
+    }
+  });
+}
+
+// Function to update portfolio UI
+function updatePortfolioUI() {
+  const portfolioList = document.querySelector('.assets');
+  let totalValue = 0;
+  
+  // Clear current list
+  portfolioList.innerHTML = '';
+  
+  // For each coin in portfolio, get current data and display
+  userPortfolio.forEach(portfolioItem => {
+    const coinData = allCoinData.find(coin => coin.id === portfolioItem.coin);
+    
+    if (coinData) {
+      const coinValue = coinData.current_price * portfolioItem.quantity;
+      totalValue += coinValue;
+      
+      const changeClass = coinData.price_change_percentage_24h >= 0 ? 'green' : 'red';
+      const changeSymbol = coinData.price_change_percentage_24h >= 0 ? '▲' : '▼';
+      
+      const listItem = document.createElement('li');
+      listItem.innerHTML = `
+        <div class="coin-info">
+          <strong>${coinData.symbol.toUpperCase()}</strong>
+          <span>${portfolioItem.quantity} ${coinData.symbol.toUpperCase()}</span>
+        </div>
+        <div class="coin-value">
+          <strong>$${coinValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong>
+          <span class="${changeClass}">${changeSymbol} ${Math.abs(coinData.price_change_percentage_24h).toFixed(2)}%</span>
+        </div>
+      `;
+      
+      portfolioList.appendChild(listItem);
+    }
+  });
+  
+  // Update total value
+  document.querySelector('.total-value h2').textContent = `$${totalValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+}
+
+// Event listener for "Add New Asset" button
+document.querySelector('.add-btn').addEventListener('click', addNewAsset);

@@ -361,3 +361,136 @@ td i.fa-star:hover {
   padding: 1rem;
   box-sizing: border-box;
 }
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+  
+  .topbar {
+    padding: 0.75rem;
+  }
+  
+ 
+  .search-filter-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-input, #filter-dropdown, #sort-dropdown {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  
+  .container {
+    flex-direction: column;
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+  
+  
+  .main-content {
+    width: 100%;
+    order: 1; 
+  }
+  
+  .top-bar-container {
+    width: 100%;
+    order: 2; 
+    margin-bottom: 2rem;
+  }
+  
+  
+  .sidebar {
+    width: 100%;
+  }
+  
+  
+  .coin-table-section {
+    margin-top: 1rem;
+    overflow-x: auto;
+  }
+  
+  .coin-table th,
+  .coin-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  
+  .portfolio-card,
+  .trending-coins {
+    padding: 0.75rem;
+    width: 100%; 
+  }
+  
+  
+  .time-filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  
+  .assets li {
+    padding: 0.75rem 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  
+  .total-value {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  
+  .add-btn {
+    width: 100%;
+  }
+}
+
+
+@media screen and (max-width: 480px) {
+  .time-filters {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .coin-table th:nth-child(5),
+  .coin-table td:nth-child(5),
+  .coin-table th:nth-child(6),
+  .coin-table td:nth-child(6),
+  .coin-table th:nth-child(7),
+  .coin-table td:nth-child(7) {
+    display: none;
+  }
+  
+  .coin-table th,
+  .coin-table td {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.8rem;
+  }
+}
+
+
+@media screen and (max-width: 360px) {
+  .logo span {
+    font-size: 0.9rem;
+  }
+  
+  .refresh-btn {
+    font-size: 0.85rem;
+  }
+  
+  
+  .coin-table th, 
+  .coin-table td {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.75rem;
+  }
+  
+ 
+  .coin-table th:nth-child(4),
+  .coin-table td:nth-child(4) {
+    display: none;
+  }
+}
