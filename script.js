@@ -6,7 +6,6 @@ async function fetchCryptoData() {
     try {
       const res = await fetch(endpoint);
       const data = await res.json();
-
       tableBody.innerHTML = ""; 
       
 
@@ -40,7 +39,7 @@ async function fetchCryptoData() {
   }
 
   fetchCryptoData();
-  const searchInput = document.getElementById("search-input");
+  const searchInput = document.querySelector(".search-input");
 
   searchInput.addEventListener("input", () => {
     const query = searchInput.value.toLowerCase();
@@ -107,23 +106,25 @@ function renderTable(data) {
             <td>${coin.circulating_supply.toLocaleString()} ${coin.symbol.toUpperCase()}</td>
           </tr>
         `;
-        switch (currentTimeframe) {
-            case "1h":
-              return coin.price_change_percentage_1h_in_currency;
-            case "7d":
-              return coin.price_change_percentage_7d_in_currency;
-            case "30d":
-              return coin.price_change_percentage_30d_in_currency;
-            case "24h":
-            default:
-              return coin.price_change_percentage_24h;
-          }
-      
+
         tableBody.innerHTML += row;
       });
   }
   
-
+  function getChangeByTimeframe(coin) {
+    switch (currentTimeframe) {
+      case "1h":
+        return coin.price_change_percentage_1h_in_currency;
+      case "7d":
+        return coin.price_change_percentage_7d_in_currency;
+      case "30d":
+        return coin.price_change_percentage_30d_in_currency;
+      case "24h":
+      default:
+        return coin.price_change_percentage_24h;
+    }
+  }
+  
   let currentTimeframe = "24h"; 
 
 document.querySelectorAll(".time-btn").forEach((btn) => {
@@ -133,6 +134,7 @@ document.querySelectorAll(".time-btn").forEach((btn) => {
 
     currentTimeframe = btn.dataset.timeframe;
     fetchCryptoData();
+
   });
 });
 
@@ -245,9 +247,9 @@ function updatePortfolioUI() {
     }
   });
   
-  // Update total value
+  
   document.querySelector('.total-value h2').textContent = `$${totalValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 }
 
-// Event listener for "Add New Asset" button
+
 document.querySelector('.add-btn').addEventListener('click', addNewAsset);
