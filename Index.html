@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoinTracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  integrity="sha512-ZkmuA5+0aVRLdFcLeK7+E5cLmcK1jXs5SfvK1Ev9L2UOJe4qZGMylLqHRKoJOVslqz5gZmAoYFGwjH2v1+Zz5g=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
+
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo">
+      <img src="./Assets/cointrackerlogo.png" alt="logo" />
+      <span>CoinTracker</span>
+    </div>
+    <button class="refresh-btn">
+      <i class="fas fa-sync-alt"></i>
+      Refresh
+    </button>
+  </header>
+  <main class="controls">
+    <div class="search-filter-group">
+      <input type="text" class="search-input" placeholder="Search coins..." />
+      <select id="filter-dropdown">
+        <option value="">Filter</option>
+        <option value="top">Top Coins</option>
+        <option value="gainers">Top Gainers</option>
+        <option value="losers">Top Losers</option>
+      </select>
+    
+      <select id="sort-dropdown">
+        <option value="">Sort By</option>
+        <option value="price">Price</option>
+        <option value="market-cap">Market Cap</option>
+        <option value="24h-change">24h %</option>
+      </select>
+    </div>
+    <div class="time-filters">
+        <button class="time-btn active">1h</button>
+        <button class="time-btn">24h</button>
+        <button class="time-btn">7d</button>
+        <button class="time-btn">30d</button>
+      </div>  
+  </main>
+  <div class="container">
+  
+    <main class="main-content">
+      
+      <section class="coin-table-section">
+        <table class="coin-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>24h %</th>
+              <th>Market Cap</th>
+              <th>Volume (24h)</th>
+              <th>Circulating Supply</th>
+            </tr>
+          </thead>
+          <tbody id="coin-table-body">
+            <tr>
+              <td><i class="fa-regular fa-star"></i>1</td>
+              <td>
+                <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC" class="coin-icon">
+                <strong>Bitcoin</strong> <small>(BTC)</small>
+              </td>
+              <td>$32,716.11</td>
+              <td class="green">+2.34%</td>
+              <td>$625B</td>
+              <td>$35B</td>
+              <td>19.4M BTC</td>
+            </tr>
+            <tr>
+              <td><i class="fa-regular fa-star"></i>2</td>
+              <td>
+                <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH" class="coin-icon">
+                <strong>Ethereum</strong> <small>(ETH)</small>
+              </td>
+              <td>$3,457.29</td>
+              <td class="red">-1.12%</td>
+              <td>$415B</td>
+              <td>$18B</td>
+              <td>120M ETH</td>
+            </tr>
+            <tr>
+              <td><i class="fa-regular fa-star"></i>3</td>
+              <td>
+                <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT" class="coin-icon">
+                <strong>Tether</strong> <small>(USDT)</small>
+              </td>
+              <td>$1.00</td>
+              <td class="green">+0.01%</td>
+              <td>$83B</td>
+              <td>$45B</td>
+              <td>83B USDT</td>
+            </tr>
+            <tr>
+              <td><i class="fa-regular fa-star"></i>4</td>
+              <td>
+                <img src="https://cryptologos.cc/logos/solana-sol-logo.png" alt="SOL" class="coin-icon">
+                <strong>Solana</strong> <small>(SOL)</small>
+              </td>
+              <td>$123.45</td>
+              <td class="green">+4.78%</td>
+              <td>$54B</td>
+              <td>$3.2B</td>
+              <td>435M SOL</td>
+            </tr>
+            <tr>
+              <td><i class="fa-regular fa-star"></i>5</td>
+              <td>
+                <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" alt="BNB" class="coin-icon">
+                <strong>BNB</strong> <small>(BNB)</small>
+              </td>
+              <td>$412.11</td>
+              <td class="red">-0.87%</td>
+              <td>$63B</td>
+              <td>$1.1B</td>
+              <td>153M BNB</td>
+            </tr>
+            <tr>
+              <td><i class="fa-regular fa-star"></i>6</td>
+              <td>
+                <img src="https://cryptologos.cc/logos/xrp-xrp-logo.png" alt="XRP" class="coin-icon">
+                <strong>XRP</strong> <small>(XRP)</small>
+              </td>
+              <td>$0.72</td>
+              <td class="green">+1.89%</td>
+              <td>$38B</td>
+              <td>$1.3B</td>
+              <td>53B XRP</td>
+            </tr>
+            <tr>
+              <td><i class="fa-regular fa-star"></i>7</td>
+              <td>
+                <img src="https://cryptologos.cc/logos/cardano-ada-logo.png" alt="ADA" class="coin-icon">
+                <strong>Cardano</strong> <small>(ADA)</small>
+              </td>
+              <td>$0.42</td>
+              <td class="red">-0.42%</td>
+              <td>$14B</td>
+              <td>$500M</td>
+              <td>33.5B ADA</td>
+            </tr>
+            <tr>
+              <td><i class="fa-regular fa-star"></i>8</td>
+              <td>
+                <img src="https://cryptologos.cc/logos/dogecoin-doge-logo.png" alt="DOGE" class="coin-icon">
+                <strong>Dogecoin</strong> <small>(DOGE)</small>
+              </td>
+              <td>$0.087</td>
+              <td class="green">+3.21%</td>
+              <td>$11B</td>
+              <td>$800M</td>
+              <td>140B DOGE</td>
+            </tr>
+            <tr>
+              <td><i class="fa-regular fa-star"></i>9</td>
+              <td>
+                <img src="https://cryptologos.cc/logos/polkadot-new-dot-logo.png" alt="DOT" class="coin-icon">
+                <strong>Polkadot</strong> <small>(DOT)</small>
+              </td>
+              <td>$7.23</td>
+              <td class="red">-1.90%</td>
+              <td>$8.9B</td>
+              <td>$370M</td>
+              <td>1.2B DOT</td>
+            </tr>
+            <tr>
+              <td><i class="fa-regular fa-star"></i>10</td>
+              <td>
+                <img src="https://cryptologos.cc/logos/avalanche-avax-logo.png" alt="AVAX" class="coin-icon">
+                <strong>Avalanche</strong> <small>(AVAX)</small>
+              </td>
+              <td>$39.12</td>
+              <td class="green">+0.76%</td>
+              <td>$14B</td>
+              <td>$690M</td>
+              <td>377M AVAX</td>
+            </tr>
+          </tbody>
+          
+        </table>
+      </section>
+      
+    </main>
+  
+    <!-- Sidebar -->
+    <div class="top-bar-container">
+        <div class="search-section">
+        </div>
+      
+        <aside class="sidebar">
+          <!-- Portfolio Section -->
+          <section class="portfolio-card">
+            <h3>Your Portfolio</h3>
+            <div class="tabs">
+              <button class="active">Holdings</button>
+              <button>Performance</button>
+            </div>
+            <div class="total-value">
+              <span>Total Value</span>
+              <h2 style="font-size: 1rem;">$47,715.90</h2>
+            </div>
+      
+            <ul class="assets">
+              <li>
+                <div class="coin-info">
+                  <strong>BTC</strong>
+                  <span>0.5 BTC</span>
+                </div>
+                <div class="coin-value">
+                  <strong>$32,716.11</strong>
+                  <span class="green">▲ 2.34%</span>
+                </div>
+              </li>
+              <li>
+                <div class="coin-info">
+                  <strong>ETH</strong>
+                  <span>3.2 ETH</span>
+                </div>
+                <div class="coin-value">
+                  <strong>$11,061.70</strong>
+                  <span class="red">▼ 1.23%</span>
+                </div>
+              </li>
+              <li>
+                <div class="coin-info">
+                  <strong>SOL</strong>
+                  <span>25 SOL</span>
+                </div>
+                <div class="coin-value">
+                  <strong>$3,086.25</strong>
+                  <span class="green">▲ 5.67%</span>
+                </div>
+              </li>
+              <li>
+                <div class="coin-info">
+                  <strong>BNB</strong>
+                  <span>1.5 BNB</span>
+                </div>
+                <div class="coin-value">
+                  <strong>$851.84</strong>
+                  <span class="green">▲ 1.23%</span>
+                </div>
+              </li>
+            </ul>
+      
+            <button class="add-btn">Add New Asset</button>
+          </section>
+      
+          <!-- Trending Coins -->
+          <section class="trending-coins">
+            <h3>Trending Coins</h3>
+            <ul>
+              <li><span>1</span> Bitcoin <span class="green">▲ 2.34%</span></li>
+              <li><span>2</span> Ethereum <span class="red">▼ 1.23%</span></li>
+              <li><span>3</span> Solana <span class="green">▲ 5.67%</span></li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+
+      
+      
+  </div>
+  
+  
+  <script src="script.js"></script>
+  
+  
+</body>
+</html>
