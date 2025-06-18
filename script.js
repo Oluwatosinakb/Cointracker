@@ -5,7 +5,7 @@ async function fetchCryptoData() {
   try {
     const res = await fetch(endpoint);
     const data = await res.json();
-    allCoinData = data; // ✅ Fixed: Store data globally for sorting/filtering
+    allCoinData = data; 
     tableBody.innerHTML = "";
 
     data.forEach((coin, index) => {
@@ -38,7 +38,7 @@ async function fetchCryptoData() {
   }
 }
 
-fetchCryptoData();
+fetchCryptoData().then(updatePortfolioUI);
 
 const searchInput = document.querySelector(".search-input");
 searchInput.addEventListener("input", () => {
@@ -66,7 +66,7 @@ function sortTable(column, ascending = false) {
     case "price":
       sorted.sort((a, b) => ascending ? a.current_price - b.current_price : b.current_price - a.current_price);
       break;
-    case "market_cap":
+    case "market-cap":
       sorted.sort((a, b) => ascending ? a.market_cap - b.market_cap : b.market_cap - a.market_cap);
       break;
     case "change-24h":
@@ -139,17 +139,25 @@ function getChangeByTimeframe(coin) {
   }
 }
 
+
 let currentTimeframe = "24h";
 
 document.querySelectorAll(".time-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
+    // Remove 'active' from all buttons
     document.querySelectorAll(".time-btn").forEach((b) => b.classList.remove("active"));
+
+    // Add 'active' to the clicked one
     btn.classList.add("active");
 
+    // Set current timeframe based on clicked button
     currentTimeframe = btn.dataset.timeframe;
-    fetchCryptoData();
+
+    // Re-render using the selected timeframe (DO NOT FETCH AGAIN)
+    renderTable(allCoinData);
   });
 });
+
 
 // Portfolio management
 let userPortfolio = [
