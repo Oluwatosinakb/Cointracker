@@ -31,7 +31,9 @@ async function fetchCryptoData() {
       tableBody.insertAdjacentHTML("beforeend", row);
     });
 
-    updatePortfolioUI(); // Optional: update portfolio after refresh
+    updatePortfolioUI(); 
+    updateTrendingCoins();
+    
   } catch (error) {
     console.error("Failed to fetch crypto data:", error);
     tableBody.innerHTML = "<tr><td colspan='7'>Failed to load data. Please try again later.</td></tr>";
@@ -60,7 +62,7 @@ sortSelect.addEventListener("change", () => {
 });
 
 function sortTable(column, ascending = false) {
-  const sorted = [...allCoinData]; // clone the array
+  const sorted = [...allCoinData]; 
 
   switch (column) {
     case "price":
@@ -144,17 +146,13 @@ let currentTimeframe = "24h";
 
 document.querySelectorAll(".time-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
-    // Remove 'active' from all buttons
+    
     document.querySelectorAll(".time-btn").forEach((b) => b.classList.remove("active"));
-
-    // Add 'active' to the clicked one
     btn.classList.add("active");
-
-    // Set current timeframe based on clicked button
+    
     currentTimeframe = btn.dataset.timeframe;
-
-    // Re-render using the selected timeframe (DO NOT FETCH AGAIN)
     renderTable(allCoinData);
+    updateTrendingCoins();
   });
 });
 
@@ -267,3 +265,28 @@ refreshBtn.addEventListener("click", async () => {
   await fetchCryptoData();
   refreshBtn.classList.remove("loading");
 });
+
+function updateTrendingCoins() {
+  const list = document.querySelector('.trending-list');
+  list.innerHTML = '';
+
+  // Sort allCoinData by the selected timeframe
+  const sorted = [...allCoinData].sort((a, b) => {
+    return getChangeByTimeframe(b) - getChangeByTimeframe(a);
+  });
+
+  const top3 = sorted.slice(0, 3);
+
+  top3.forEach((coin, i) => {
+    const change = getChangeByTimeframe(coin);
+    const changeClass = change >= 0 ? 'green' : 'red';
+    const arrow = change >= 0 ? '▲' : '▼';
+    const li = document.createElement('li');
+
+    li.innerHTML = `
+      <span>${i + 1}</span> ${coin.name}
+      <span class="${changeClass}">${arrow} ${Math.abs(change).toFixed(2)}%</span>
+    `;
+    list.appendChild(li);
+  });
+}
